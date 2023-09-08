@@ -1,8 +1,10 @@
 {
   "env": {
     "node": true,
-    "es2024": true
+    "es2024": true,
+    "browser": true
   },
+  "plugins": ["import"],
   "extends": ["airbnb-base", "airbnb-typescript/base"],
   "overrides": [
     {
@@ -18,5 +20,7 @@
     "project": "./tsconfig.json"
   },
   "ignorePatterns": ["/dist", "/node_modules"],
-  "rules": {}
+  "rules": {
+    "import/no-extraneous-dependencies": "off" // TODO:
+  }
 }
