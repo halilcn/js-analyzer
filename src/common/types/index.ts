@@ -4,3 +4,15 @@ export interface IAnswers {
   exceptFiles: string[]
   exceptTypes: string[]
 }
+
+export interface IFileAnalyze {
+  types: object[]
+}
+
+export enum NamingConventionEnum {
+  CAMEL_CASE = 'CAMEL_CASE',
+  PASCAL_CASE = 'PASCAL_CASE',
+  SNAKE_CASE = 'SNAKE_CASE',
+  KEBAB_CASE = 'KEBAB_CASE',
+  UNDEFINED_CASE = 'UNDEFINED_CASE',
+}

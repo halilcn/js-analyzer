@@ -32,7 +32,5 @@ export const getAllFilesPath = (answers: IAnswers): string[] => {
   const targetDirectory = path.join(getCurrentDirectory(), answers.path);
   const validAllFilesPath = getValidAllFilesPath({ targetDirectory, answers });
 
-  console.log('validAllFilesPath', validAllFilesPath);
-
   return validAllFilesPath;
 };
