@@ -4,9 +4,3 @@ export interface IQuestion {
   message: string;
   choices?: string[] | number[];
 }
-
-export interface IAnswers {
-  src: string
-  type: string
-  excepts: string[]
-}

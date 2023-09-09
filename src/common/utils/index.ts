@@ -8,4 +8,4 @@ export const getDirname = (): string => {
   return dirname;
 };
 
-export const a = () => { };
+export const getCurrentDirectory = (): string => process.cwd();
