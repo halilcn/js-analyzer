@@ -6,7 +6,9 @@ export interface IAnswers {
 }
 
 export interface IFileAnalyze {
-  types: object[]
+  types: object
+  namingConventions: object
+  totalFile: number
 }
 
 export enum NamingConventionEnum {
@@ -15,4 +17,8 @@ export enum NamingConventionEnum {
   SNAKE_CASE = 'SNAKE_CASE',
   KEBAB_CASE = 'KEBAB_CASE',
   UNDEFINED_CASE = 'UNDEFINED_CASE',
+}
+
+export interface IAllAnalyzes {
+  fileAnalyze: IFileAnalyze
 }
