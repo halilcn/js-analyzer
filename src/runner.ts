@@ -4,6 +4,7 @@ import { IAnswers } from './common/types/index.js';
 import { handleFileAnalyze } from './features/file-analyze/index.js';
 import { createCLITables } from './features/create-cli-table/index.js';
 import { createFile } from './features/create-file/index.js';
+import { renderTables } from './features/render-table/index.js';
 
 export default (answers: IAnswers) => {
   const filePathList = getAllFilesPath(answers);
@@ -11,10 +12,7 @@ export default (answers: IAnswers) => {
   const fileAnalyze = handleFileAnalyze(filePathList);
 
   const allCLITables = createCLITables({ fileAnalyze });
-
-  allCLITables.forEach((table) => {
-    console.log(table.toString());
-  });
+  renderTables(allCLITables);
 
   createFile({ allCLITables, fileName: 'testFile1' });
 };
