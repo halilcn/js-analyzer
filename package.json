@@ -33,6 +33,7 @@
     "cli-table": "^0.3.11",
     "commander": "^11.0.0",
     "inquirer": "^9.2.10",
-    "rimraf": "^5.0.1"
+    "rimraf": "^5.0.1",
+    "strip-ansi": "^7.1.0"
   }
 }
