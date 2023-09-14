@@ -2,7 +2,8 @@
 
 import { NamingConventionEnum } from '../types/index.js';
 
-export const DEFAULT_EXPECTED_FILE_NAMES = ['node_modules', 'dist', 'package.json', 'package-lock.json'];
+export const DEFAULT_EXPECT_FILES = ['node_modules', 'dist', 'package.json', 'package-lock.json', '.git'];
+export const DEFAULT_EXPECT_TYPES = [''];
 
 export const NAMING_CONVENTIONS_REGEX = {
   [NamingConventionEnum.KEBAB_CASE]: /^[a-z][a-z0-9-]*$/,

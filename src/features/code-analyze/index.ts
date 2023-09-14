@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import { getTotalCommentsLine } from './comments.js';
+import { getCommentsAnalyze } from './comments.js';
+import { ICodeAnalyze } from '../../common/types/index.js';
 
 // boş line sayısı.
 // ecmascript veya commonjs.
@@ -9,20 +10,30 @@ import { getTotalCommentsLine } from './comments.js';
 // comment satır sayıso
 
 export const handleCodeAnalyze = (files: string[]) => {
-  const test = files.reduce((acc: any, item) => {
-    const fileContent = fs.readFileSync('/Users/halil/Desktop/others/js-analyzer/src/test.ts', { encoding: 'utf-8' });
-    // console.log('fileContent', fileContent.split('\n'));
+  const test = files.reduce((acc: ICodeAnalyze, item) => {
+    const fileContent = fs.readFileSync(item, { encoding: 'utf-8' });
+    // const fileContent = fs.readFileSync('/Users/halil/Desktop/others/js-analyzer/src/test.ts', { encoding: 'utf-8' });
 
-    console.log('fileContent', fileContent);
+    const commentsAnalyze = getCommentsAnalyze(fileContent);
+    console.log('commentsAnalyze', commentsAnalyze);
+    console.log('item', item);
 
-    const count = getTotalCommentsLine(fileContent);
-
-    // const { name } = path.parse(item);
-
-    // const namingConventionType = findNamingConvention(name);
-
-    return acc + 1;
-  }, 0);
+    const { comments } = acc;
+    return {
+      ...acc,
+      comments: {
+        blockComments: comments.blockComments + commentsAnalyze.blockComments,
+        inlineComments: comments.inlineComments + commentsAnalyze.inlineComments,
+        totalComments: comments.totalComments + commentsAnalyze.totalComments,
+      },
+    };
+  }, {
+    comments: {
+      blockComments: 0,
+      inlineComments: 0,
+      totalComments: 0,
+    },
+  });
 
   return test;
 };

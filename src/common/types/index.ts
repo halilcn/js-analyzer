@@ -11,6 +11,16 @@ export interface IFileAnalyze {
   totalFile: number
 }
 
+export interface ICommentsCodeAnalyze {
+  blockComments: number
+  inlineComments: number
+  totalComments: number
+}
+
+export interface ICodeAnalyze {
+  comments: ICommentsCodeAnalyze
+}
+
 export enum NamingConventionEnum {
   CAMEL_CASE = 'CAMEL_CASE',
   PASCAL_CASE = 'PASCAL_CASE',

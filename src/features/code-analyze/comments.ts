@@ -1,41 +1,43 @@
-const isInlineCommentLine = (contentLine: string) => {
-  const regex = new RegExp('//.*');
-  const rex = regex.test(contentLine);
+import { ICommentsCodeAnalyze } from '../../common/types';
+import { BLOCK_COMMENT_REGEX, INLINE_BLOCK_COMMENT_REGEX, INLINE_COMMENT_REGEX } from './constant.js';
 
-  return rex;
+const isInlineCommentLine = (contentLine: string) => {
+  const isInlineComment = new RegExp(INLINE_COMMENT_REGEX).test(contentLine);
+  const isInlineBlockComment = new RegExp(INLINE_BLOCK_COMMENT_REGEX).test(contentLine);
+
+  return isInlineComment || isInlineBlockComment;
 };
 
 const getBlockCommentsCount = (content: string): number => {
-  const allMatchedComments: string[] = [];
-  content.replace(/\/\**\s*(.*?)\s*\*\//g, (matchedComment) => {
-    allMatchedComments.push(matchedComment);
+  const blockComments: string[] = [];
+  content.replace(BLOCK_COMMENT_REGEX, (matchedComment) => {
+    if (isInlineCommentLine(matchedComment)) return '';
+    blockComments.push(matchedComment);
     return '';
   });
 
-  return allMatchedComments.reduce((acc, item) => {
+  const blockCommentsCount = blockComments.reduce((acc, item) => {
     const commentLineCount = item.split('\n').length;
-
-    if (commentLineCount === 1) return acc;
     return acc + commentLineCount;
   }, 0);
+
+  return blockCommentsCount;
 };
 
-export const getTotalCommentsLine = (content: string): number => {
-  const res = content.split('\n').reduce((acc: any, contentLine: string) => {
-    if (isInlineCommentLine(contentLine)) {
-      return {
-        ...acc,
-        inlineComment: acc.inlineComment + 1,
-      };
-    }
+const getInlineCommentsCount = (content: string): number => content
+  .split('\n')
+  .reduce((acc: number, contentLine: string) => {
+    if (isInlineCommentLine(contentLine)) return acc + 1;
+    return acc;
+  }, 0);
 
-    return {};
-  }, {
-    inlineComment: 0,
-  });
+export const getCommentsAnalyze = (content: string): ICommentsCodeAnalyze => {
+  const inlineComments = getInlineCommentsCount(content);
+  const blockComments = getBlockCommentsCount(content);
 
-  const totalBlockCommentsCount = getBlockCommentsCount(content);
-  console.log('totalBlockCommentsCount', totalBlockCommentsCount);
-
-  return 1;
+  return {
+    blockComments,
+    inlineComments,
+    totalComments: blockComments + inlineComments,
+  };
 };
