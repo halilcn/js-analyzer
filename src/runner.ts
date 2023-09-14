@@ -13,10 +13,8 @@ export default (answers: IAnswers) => {
   const fileAnalyze = handleFileAnalyze(filePathList);
   const codeAnalyze = handleCodeAnalyze(filePathList);
 
-  console.log('codeAnalyze', codeAnalyze);
+  const allCLITables = createCLITables({ fileAnalyze, codeAnalyze });
+  renderTables(allCLITables);
 
-  const allCLITables = createCLITables({ fileAnalyze });
-  // renderTables(allCLITables);
-
-  createFile({ allCLITables, fileName: 'testFile1' });
+  createFile({ allCLITables, fileName: 'temp-file' });
 };

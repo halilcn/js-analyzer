@@ -17,8 +17,13 @@ export interface ICommentsCodeAnalyze {
   totalComments: number
 }
 
+export interface ITodosAnalyze {
+  totalTodos: number
+}
+
 export interface ICodeAnalyze {
   comments: ICommentsCodeAnalyze
+  todos: ITodosAnalyze
 }
 
 export enum NamingConventionEnum {
@@ -31,4 +36,5 @@ export enum NamingConventionEnum {
 
 export interface IAllAnalyzes {
   fileAnalyze: IFileAnalyze
+  codeAnalyze: ICodeAnalyze
 }

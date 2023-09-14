@@ -1,5 +1,5 @@
 import Table from 'cli-table';
-import { IAllAnalyzes, IFileAnalyze } from '../../common/types/index.js';
+import { IAllAnalyzes, ICodeAnalyze, IFileAnalyze } from '../../common/types/index.js';
 import { ICreateTable } from './types.js';
 import { normalizeRows } from './helpers.js';
 
@@ -18,8 +18,15 @@ const createCLIFileAnalyze = (fileAnalyze: IFileAnalyze): Table[] => {
   return allTables;
 };
 
+const createCodeAnalyze = (codeAnalyze: ICodeAnalyze): Table[] => {
+  const allTables = Object.entries(codeAnalyze)
+    .map(([key, value]) => createCLITable({ title: key, rows: normalizeRows(value) }));
+  return allTables;
+};
+
 export const createCLITables = (allAnalyzes: IAllAnalyzes): Table[] => {
   const allFileAnalyzeTables = createCLIFileAnalyze(allAnalyzes.fileAnalyze);
+  const allCodeAnalyzeTables = createCodeAnalyze(allAnalyzes.codeAnalyze);
 
-  return [...allFileAnalyzeTables];
+  return [...allFileAnalyzeTables, ...allCodeAnalyzeTables];
 };

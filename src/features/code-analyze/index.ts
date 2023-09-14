@@ -2,23 +2,32 @@ import path from 'path';
 import fs from 'fs';
 import { getCommentsAnalyze } from './comments.js';
 import { ICodeAnalyze } from '../../common/types/index.js';
+import { getTodosAnalyze } from './todos.js';
 
 // boş line sayısı.
 // ecmascript veya commonjs.
-// todo sayisi
 // variable type
-// comment satır sayıso
 
 export const handleCodeAnalyze = (files: string[]) => {
-  const test = files.reduce((acc: ICodeAnalyze, item) => {
+  const initialCodeAnalyze = {
+    comments: {
+      blockComments: 0,
+      inlineComments: 0,
+      totalComments: 0,
+    },
+    todos: {
+      totalTodos: 0,
+    },
+  };
+
+  const res = files.reduce((acc: ICodeAnalyze, item) => {
     const fileContent = fs.readFileSync(item, { encoding: 'utf-8' });
     // const fileContent = fs.readFileSync('/Users/halil/Desktop/others/js-analyzer/src/test.ts', { encoding: 'utf-8' });
 
     const commentsAnalyze = getCommentsAnalyze(fileContent);
-    console.log('commentsAnalyze', commentsAnalyze);
-    console.log('item', item);
+    const todosAnalyze = getTodosAnalyze(fileContent);
 
-    const { comments } = acc;
+    const { comments, todos } = acc;
     return {
       ...acc,
       comments: {
@@ -26,14 +35,11 @@ export const handleCodeAnalyze = (files: string[]) => {
         inlineComments: comments.inlineComments + commentsAnalyze.inlineComments,
         totalComments: comments.totalComments + commentsAnalyze.totalComments,
       },
+      todos: {
+        totalTodos: todos.totalTodos + todosAnalyze.totalTodos,
+      },
     };
-  }, {
-    comments: {
-      blockComments: 0,
-      inlineComments: 0,
-      totalComments: 0,
-    },
-  });
+  }, initialCodeAnalyze);
 
-  return test;
+  return res;
 };
