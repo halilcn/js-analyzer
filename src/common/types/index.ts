@@ -1,8 +1,14 @@
+export enum AnswerEnums {
+  PATH = 'path',
+  TYPE = 'type',
+  EXCEPT_FILES = 'exceptFiles',
+  EXCEPT_EXTENSIONS = 'exceptExtensions',
+}
 export interface IAnswers {
-  path: string
+  [AnswerEnums.PATH]: string
   type: string
   exceptFiles: string[]
-  exceptTypes: string[]
+  exceptExtensions: string[]
 }
 
 export interface IFileAnalyze {

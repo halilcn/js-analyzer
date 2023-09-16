@@ -1,31 +1,21 @@
-import { IAnswers } from '../../common/types/index.js';
-
-export const getAnswers = () => {
-  /*
 import inquirer from 'inquirer';
-import { PROMPT_QUESTIONS } from './constants.ts';
+import { IAnswers } from '../../common/types/index.js';
+import { PROMPT_QUESTIONS } from './constants.js';
+import { normalizeAnswers } from './utils.js';
+import { PureAnswers } from './type.js';
 
-inquirer
-  .prompt(PROMPT_QUESTIONS)
-  .then((answers) => {
-    console.log('answer', answers);
-    // Use user feedback for... whatever!!
-  })
-  .catch((error) => {
-    if (error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else went wrong
-    }
-  });
+export const getAnswers = async () => {
+  try {
+    const answers = await inquirer.prompt(PROMPT_QUESTIONS) as PureAnswers;
+    const normalizedAnswers = normalizeAnswers(answers);
 
-*/
-  const dummyAnswers: IAnswers = {
-    path: '/',
-    type: 'none',
-    exceptFiles: ['afile', 'bfile', 'afile.js'],
-    exceptTypes: [''],
-  };
+    console.log('answers', answers);
+    console.log('normalizedAnswers', normalizedAnswers);
 
-  return dummyAnswers;
+    return answers;
+    process.exit();
+  } catch (err) {
+    console.log('err', err);
+    process.exit();
+  }
 };
