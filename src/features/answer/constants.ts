@@ -1,7 +1,7 @@
+import { QuestionCollection } from 'inquirer';
 import { AnswerEnums } from '../../common/types/index.js';
-import { IQuestion } from './type.js';
 
-export const PROMPT_QUESTIONS: IQuestion[] = [
+export const PROMPT_QUESTIONS: QuestionCollection = [
   {
     name: AnswerEnums.PATH,
     type: 'input',
@@ -23,4 +23,16 @@ export const PROMPT_QUESTIONS: IQuestion[] = [
     type: 'input',
     message: 'Are there any file extensions you want to except? (You should write them like ".json, .txt, ...")',
   },
+  {
+    name: AnswerEnums.REQUESTED_FILE,
+    type: 'confirm',
+    message: 'Do you want to create a text file that includes analyze tables?',
+  },
+  {
+    name: AnswerEnums.REQUESTED_FILE_NAME,
+    type: 'input',
+    message: 'Do you want to create with a special analyze name? (If not, you can pass)',
+    when: (answers) => answers.requestedFile,
+  },
+
 ];

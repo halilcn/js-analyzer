@@ -1,14 +1,20 @@
+export type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
+
 export enum AnswerEnums {
   PATH = 'path',
   TYPE = 'type',
   EXCEPT_FILES = 'exceptFiles',
   EXCEPT_EXTENSIONS = 'exceptExtensions',
+  REQUESTED_FILE = 'requestedFile',
+  REQUESTED_FILE_NAME = 'requestedFileName',
 }
 export interface IAnswers {
   [AnswerEnums.PATH]: string
-  type: string
-  exceptFiles: string[]
-  exceptExtensions: string[]
+  [AnswerEnums.TYPE]: string
+  [AnswerEnums.EXCEPT_FILES]: string[]
+  [AnswerEnums.EXCEPT_EXTENSIONS]: string[]
+  [AnswerEnums.REQUESTED_FILE]: boolean
+  [AnswerEnums.REQUESTED_FILE_NAME]?: string
 }
 
 export interface IFileAnalyze {

@@ -13,4 +13,4 @@ export const NAMING_CONVENTIONS_REGEX = {
   [NamingConventionEnum.UNDEFINED_CASE]: /^.*$/,
 };
 
-export const test = '';
+export const DEFAULT_PATH = '/';

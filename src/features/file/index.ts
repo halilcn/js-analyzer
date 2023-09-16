@@ -15,7 +15,7 @@ const getValidAllFilesPath = (payload: IValidFilesPayload, files: string[] = [])
     const fileExtname = path.extname(file);
 
     if (isExceptedByName(file, answers.exceptFiles)) return;
-    if (!!fileExtname && isExpectedByType(fileExtname, answers.exceptTypes)) return;
+    if (!!fileExtname && isExpectedByType(fileExtname, answers.exceptExtensions)) return;
 
     if (fileInfo.isDirectory()) {
       getValidAllFilesPath({ ...payload, targetDirectory: fullPath }, files);
@@ -29,6 +29,9 @@ const getValidAllFilesPath = (payload: IValidFilesPayload, files: string[] = [])
 };
 
 export const getAllFilesPath = (answers: IAnswers): string[] => {
+  // TODO: if file directory is invalid? error message
+  // TODO: if the directory given to us is not directory path
+
   const targetDirectory = path.join(getCurrentDirectory(), answers.path);
   const validAllFilesPath = getValidAllFilesPath({ targetDirectory, answers });
 

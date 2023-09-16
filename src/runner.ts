@@ -16,5 +16,11 @@ export default (answers: IAnswers) => {
   const allCLITables = createCLITables({ fileAnalyze, codeAnalyze });
   renderTables(allCLITables);
 
-  createFile({ allCLITables, fileName: 'temp-file' });
+  if (answers.requestedFile) {
+    // const defaultFileName = `analyze-${new Date().getTime()}`;
+    createFile({
+      allCLITables,
+      fileName: answers?.requestedFileName ? answers.requestedFileName : 'temp-file',
+    });
+  }
 };
