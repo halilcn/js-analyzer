@@ -1,9 +1,26 @@
 {
   "name": "js-analyzer",
+  "author": "Halil Can <iletisimhalilcan@gmail.com>",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "JS Analyzer",
+  "homepage": "https://github.com/halilcn/js-analyzer",
+  "bugs": "https://github.com/halilcn/js-analyzer/issues",
+  "license": "ISC",
+  "keywords": [
+    "javascript",
+    "analyze",
+    "analyzer",
+    "js-analyzer",
+    "js-analyze",
+    "javascript-analyze",
+    "javascript-analyzer",
+    "report",
+    "analysis"
+  ],
+  "main": "/dist/index.js",
+  "bin": "/dist/index.js",
   "type": "module",
+  "files": ["/dist"],
   "scripts": {
     "build": "rimraf dist && tsc",
     "start": "node dist",
@@ -11,9 +28,6 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.5.9",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
