@@ -25,8 +25,8 @@ const createCodeAnalyze = (codeAnalyze: ICodeAnalyze): Table[] => {
 };
 
 export const createCLITables = (allAnalyzes: IAllAnalyzes): Table[] => {
-  const allFileAnalyzeTables = createCLIFileAnalyze(allAnalyzes.fileAnalyze);
-  const allCodeAnalyzeTables = createCodeAnalyze(allAnalyzes.codeAnalyze);
+  const allFileAnalyzeTables = createCLIFileAnalyze(allAnalyzes.fileAnalyzes);
+  const allCodeAnalyzeTables = createCodeAnalyze(allAnalyzes.codeAnalyzes);
 
   return [...allFileAnalyzeTables, ...allCodeAnalyzeTables];
 };

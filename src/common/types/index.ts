@@ -17,9 +17,11 @@ export interface IAnswers {
   [AnswerEnums.REQUESTED_FILE_NAME]?: string
 }
 
-export interface IFileAnalyze {
-  types: object
-  namingConventions: object
+export interface IFileAnalyzeByFileNames {
+  types: { [key: string]: number; }
+  namingConventions: { [key in NamingConventionEnum]?: number; }
+}
+export interface IFileAnalyze extends IFileAnalyzeByFileNames {
   totalFile: number
 }
 
@@ -47,6 +49,6 @@ export enum NamingConventionEnum {
 }
 
 export interface IAllAnalyzes {
-  fileAnalyze: IFileAnalyze
-  codeAnalyze: ICodeAnalyze
+  fileAnalyzes: IFileAnalyze
+  codeAnalyzes: ICodeAnalyze
 }

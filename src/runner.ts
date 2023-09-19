@@ -1,19 +1,27 @@
-// import path from 'path';
 import { getAllFilesPath } from './features/file/index.js';
-import { IAnswers } from './common/types/index.js';
+import { IAllAnalyzes, IAnswers } from './common/types/index.js';
 import { handleFileAnalyze } from './features/file-analyze/index.js';
 import { handleCodeAnalyze } from './features/code-analyze/index.js';
 import { createCLITables } from './features/create-cli-table/index.js';
 import { createFile } from './features/create-file/index.js';
 import { renderTables } from './features/render-table/index.js';
 
+const handleAllAnalyzes = (filePathList: string[]): IAllAnalyzes => {
+  const fileAnalyzes = handleFileAnalyze(filePathList);
+  const codeAnalyzes = handleCodeAnalyze(filePathList);
+
+  return {
+    fileAnalyzes,
+    codeAnalyzes,
+  };
+};
+
 export default (answers: IAnswers) => {
   const filePathList = getAllFilesPath(answers);
 
-  const fileAnalyze = handleFileAnalyze(filePathList);
-  const codeAnalyze = handleCodeAnalyze(filePathList);
+  const allAnalyzes = handleAllAnalyzes(filePathList);
+  const allCLITables = createCLITables(allAnalyzes);
 
-  const allCLITables = createCLITables({ fileAnalyze, codeAnalyze });
   renderTables(allCLITables);
 
   if (answers.requestedFile) {
