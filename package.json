@@ -20,7 +20,9 @@
   "main": "/dist/index.js",
   "bin": "/dist/index.js",
   "type": "module",
-  "files": ["/dist"],
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "build": "rimraf dist && tsc",
     "start": "node dist",
@@ -46,6 +48,7 @@
   "dependencies": {
     "@types/cli-table": "^0.3.2",
     "@types/inquirer": "^9.0.3",
+    "chalk": "^5.3.0",
     "cli-table": "^0.3.11",
     "commander": "^11.0.0",
     "inquirer": "^9.2.10",

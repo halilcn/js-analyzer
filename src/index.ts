@@ -4,6 +4,11 @@ import runner from './runner.js';
 import { getAnswers } from './features/answer/index.js';
 
 (async () => {
-  const answers = await getAnswers();
-  runner(answers);
+  try {
+    const answers = await getAnswers();
+    runner(answers);
+  } catch (err) {
+    console.log('error var krdşm');
+    process.exit();
+  }
 })();
