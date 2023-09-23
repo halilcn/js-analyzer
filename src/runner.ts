@@ -25,10 +25,9 @@ export default (answers: IAnswers) => {
   renderTables(allCLITables);
 
   if (answers.requestedFile) {
-    // const defaultFileName = `analyze-${new Date().getTime()}`;
     createFile({
       allCLITables,
-      fileName: answers?.requestedFileName ? answers.requestedFileName : 'temp-file',
+      fileName: answers?.requestedFileName,
     });
   }
 };
