@@ -31,13 +31,9 @@ export interface ICommentsCodeAnalyze {
   totalComments: number
 }
 
-export interface ITodosAnalyze {
-  totalTodos: number
-}
-
 export interface ICodeAnalyze {
   comments: ICommentsCodeAnalyze
-  todos: ITodosAnalyze
+  totalTodos: number
 }
 
 export enum NamingConventionEnum {

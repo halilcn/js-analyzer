@@ -24,16 +24,19 @@ const createFileAnalyze = (fileAnalyzes: IFileAnalyze): Table[] => {
 };
 
 const createCodeAnalyze = (codeAnalyze: ICodeAnalyze): Table[] => {
-  const tableTitle = createCLITableTitle({ title: 'Code Analyzes' });
+  const { totalTodos, ...restOfCodeAnalyzes } = codeAnalyze;
 
-  const allTables = Object
-    .entries(codeAnalyze)
+  const tableTitle = createCLITableTitle({ title: 'Code Analyzes' });
+  const totalTodosTable = createCLILineCountTable({ head: ['total todos count', String(totalTodos)] });
+
+  const restOfAnalyzesTables = Object
+    .entries(restOfCodeAnalyzes)
     .map(([key, value]) => createCLIMultipleRowsCountTable({
       head: [key, 'quantity'],
       rows: normalizeRowsFromObject(value),
     }));
 
-  return [tableTitle, ...allTables];
+  return [tableTitle, ...restOfAnalyzesTables, totalTodosTable];
 };
 
 export const createCLITables = (allAnalyzes: IAllAnalyzes): Table[] => {

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { getCommentsAnalyze } from './comments.js';
-import { ICodeAnalyze, ICommentsCodeAnalyze, ITodosAnalyze } from '../../common/types/index.js';
+import { ICodeAnalyze, ICommentsCodeAnalyze } from '../../common/types/index.js';
 import { getTodosAnalyze } from './todos.js';
 
 // boş line sayısı.
@@ -14,9 +14,7 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
       inlineComments: 0,
       totalComments: 0,
     },
-    todos: {
-      totalTodos: 0,
-    },
+    totalTodos: 0,
   };
 
   const codeAnalyzes = files.reduce((acc, item) => {
@@ -32,16 +30,9 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
         [key]: fileCommentsAnalyze[key as keyof ICommentsCodeAnalyze] + value,
       }), commentsAnalyze);
 
-    const todos = Object
-      .entries(acc.todos)
-      .reduce((fileTodosAnalyze, [key, value]) => ({
-        ...fileTodosAnalyze,
-        [key]: fileTodosAnalyze[key as keyof ITodosAnalyze] + value,
-      }), todosAnalyze);
-
     return {
       comments,
-      todos,
+      totalTodos: acc.totalTodos + todosAnalyze,
     };
   }, initialCodeAnalyze);
 
