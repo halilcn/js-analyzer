@@ -1,15 +1,14 @@
-import path from 'path';
 import fs from 'fs';
 import { getCommentsAnalyze } from './comments.js';
-import { ICodeAnalyze } from '../../common/types/index.js';
+import { ICodeAnalyze, ICommentsCodeAnalyze, ITodosAnalyze } from '../../common/types/index.js';
 import { getTodosAnalyze } from './todos.js';
 
 // boş line sayısı.
 // ecmascript veya commonjs.
 // variable type
 
-export const handleCodeAnalyze = (files: string[]) => {
-  const initialCodeAnalyze = {
+export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
+  const initialCodeAnalyze: ICodeAnalyze = {
     comments: {
       blockComments: 0,
       inlineComments: 0,
@@ -20,26 +19,31 @@ export const handleCodeAnalyze = (files: string[]) => {
     },
   };
 
-  const res = files.reduce((acc: ICodeAnalyze, item) => {
+  const codeAnalyzes = files.reduce((acc, item) => {
     const fileContent = fs.readFileSync(item, { encoding: 'utf-8' });
-    // const fileContent = fs.readFileSync('/Users/halil/Desktop/others/js-analyzer/src/test.ts', { encoding: 'utf-8' });
 
     const commentsAnalyze = getCommentsAnalyze(fileContent);
     const todosAnalyze = getTodosAnalyze(fileContent);
 
-    const { comments, todos } = acc;
+    const comments = Object
+      .entries(acc.comments)
+      .reduce((fileCommentsAnalyze, [key, value]) => ({
+        ...fileCommentsAnalyze,
+        [key]: fileCommentsAnalyze[key as keyof ICommentsCodeAnalyze] + value,
+      }), commentsAnalyze);
+
+    const todos = Object
+      .entries(acc.todos)
+      .reduce((fileTodosAnalyze, [key, value]) => ({
+        ...fileTodosAnalyze,
+        [key]: fileTodosAnalyze[key as keyof ITodosAnalyze] + value,
+      }), todosAnalyze);
+
     return {
-      ...acc,
-      comments: {
-        blockComments: comments.blockComments + commentsAnalyze.blockComments,
-        inlineComments: comments.inlineComments + commentsAnalyze.inlineComments,
-        totalComments: comments.totalComments + commentsAnalyze.totalComments,
-      },
-      todos: {
-        totalTodos: todos.totalTodos + todosAnalyze.totalTodos,
-      },
+      comments,
+      todos,
     };
   }, initialCodeAnalyze);
 
-  return res;
+  return codeAnalyzes;
 };
