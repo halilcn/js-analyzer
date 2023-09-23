@@ -2,10 +2,7 @@ import fs from 'fs';
 import { getCommentsAnalyze } from './comments.js';
 import { ICodeAnalyze, ICommentsCodeAnalyze } from '../../common/types/index.js';
 import { getTodosAnalyze } from './todos.js';
-
-// boş line sayısı.
-// ecmascript veya commonjs.
-// variable type
+import { getEmptyLinesAnalyze } from './lines.js';
 
 export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
   const initialCodeAnalyze: ICodeAnalyze = {
@@ -15,6 +12,7 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
       totalComments: 0,
     },
     totalTodos: 0,
+    totalEmptyLines: 0,
   };
 
   const codeAnalyzes = files.reduce((acc, item) => {
@@ -22,6 +20,7 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
 
     const commentsAnalyze = getCommentsAnalyze(fileContent);
     const todosAnalyze = getTodosAnalyze(fileContent);
+    const linesAnalyze = getEmptyLinesAnalyze(fileContent);
 
     const comments = Object
       .entries(acc.comments)
@@ -33,6 +32,7 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
     return {
       comments,
       totalTodos: acc.totalTodos + todosAnalyze,
+      totalEmptyLines: acc.totalEmptyLines + linesAnalyze,
     };
   }, initialCodeAnalyze);
 

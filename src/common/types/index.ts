@@ -34,6 +34,7 @@ export interface ICommentsCodeAnalyze {
 export interface ICodeAnalyze {
   comments: ICommentsCodeAnalyze
   totalTodos: number
+  totalEmptyLines: number
 }
 
 export enum NamingConventionEnum {

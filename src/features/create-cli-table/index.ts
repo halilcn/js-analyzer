@@ -24,10 +24,11 @@ const createFileAnalyze = (fileAnalyzes: IFileAnalyze): Table[] => {
 };
 
 const createCodeAnalyze = (codeAnalyze: ICodeAnalyze): Table[] => {
-  const { totalTodos, ...restOfCodeAnalyzes } = codeAnalyze;
+  const { totalTodos, totalEmptyLines, ...restOfCodeAnalyzes } = codeAnalyze;
 
   const tableTitle = createCLITableTitle({ title: 'Code Analyzes' });
   const totalTodosTable = createCLILineCountTable({ head: ['total todos count', String(totalTodos)] });
+  const totalEmptyLinesTable = createCLILineCountTable({ head: ['total empty lines count', String(totalEmptyLines)] });
 
   const restOfAnalyzesTables = Object
     .entries(restOfCodeAnalyzes)
@@ -36,7 +37,7 @@ const createCodeAnalyze = (codeAnalyze: ICodeAnalyze): Table[] => {
       rows: normalizeRowsFromObject(value),
     }));
 
-  return [tableTitle, ...restOfAnalyzesTables, totalTodosTable];
+  return [tableTitle, ...restOfAnalyzesTables, totalTodosTable, totalEmptyLinesTable];
 };
 
 export const createCLITables = (allAnalyzes: IAllAnalyzes): Table[] => {
