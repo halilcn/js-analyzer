@@ -5,6 +5,7 @@ import { handleCodeAnalyze } from './features/code-analyze/index.js';
 import { createCLITables } from './features/create-cli-table/index.js';
 import { createFile } from './features/create-file/index.js';
 import { renderTables } from './features/render-table/index.js';
+import { isDevEnv } from './common/utils/index.js';
 
 const handleAllAnalyzes = (filePathList: string[]): IAllAnalyzes => {
   const fileAnalyzes = handleFileAnalyze(filePathList);
@@ -27,7 +28,7 @@ export default (answers: IAnswers) => {
   if (answers.requestedFile) {
     createFile({
       allCLITables,
-      fileName: answers?.requestedFileName,
+      fileName: isDevEnv() ? 'dev-analyze' : answers?.requestedFileName,
     });
   }
 };
