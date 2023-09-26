@@ -2,7 +2,7 @@ import fs from 'fs';
 import { getCommentsAnalyze } from './comments.js';
 import { ICodeAnalyze, ICommentsCodeAnalyze } from '../../common/types/index.js';
 import { getTodosAnalyze } from './todos.js';
-import { getEmptyLinesAnalyze } from './lines.js';
+import { getEmptyLinesAnalyze } from './general.js';
 
 export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
   const initialCodeAnalyze: ICodeAnalyze = {
