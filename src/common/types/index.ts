@@ -31,8 +31,13 @@ export interface ICommentsCodeAnalyze {
   totalComments: number
 }
 
+export interface ILogsCodeAnalyze {
+  [key: string]: number
+}
+
 export interface ICodeAnalyze {
   comments: ICommentsCodeAnalyze
+  logs: ILogsCodeAnalyze
   totalTodos: number
   totalEmptyLines: number
 }
