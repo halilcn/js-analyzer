@@ -4,7 +4,7 @@ import { ICodeAnalyze, ICommentsCodeAnalyze, ILogsCodeAnalyze } from '../../comm
 import { getTodosAnalyze } from './todos.js';
 import { getEmptyLinesAnalyze } from './general.js';
 import { getLogsAnalyze } from './logs.js';
-import { IHandleLogsAnalyze } from './types.js';
+import { IHandleGetCommentsAnalyze, IHandleLogsAnalyze } from './types.js';
 
 const handleGetLogsAnalyze = (payload: IHandleLogsAnalyze): ILogsCodeAnalyze => {
   const { fileContent, logs } = payload;
@@ -25,6 +25,19 @@ const handleGetLogsAnalyze = (payload: IHandleLogsAnalyze): ILogsCodeAnalyze => 
     }), {});
 };
 
+const handleGetCommentsAnalyze = (payload: IHandleGetCommentsAnalyze) => {
+  const { fileContent, comments } = payload;
+
+  const contentCommentsAnalyze = getCommentsAnalyze(fileContent);
+
+  return Object
+    .entries(comments)
+    .reduce((fileCommentsAnalyze, [key, value]) => ({
+      ...fileCommentsAnalyze,
+      [key]: fileCommentsAnalyze[key as keyof ICommentsCodeAnalyze] + value,
+    }), contentCommentsAnalyze);
+};
+
 export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
   const initialCodeAnalyze: ICodeAnalyze = {
     comments: {
@@ -40,17 +53,10 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
   const codeAnalyzes = files.reduce((acc, item) => {
     const fileContent = fs.readFileSync(item, { encoding: 'utf-8' });
 
-    const commentsAnalyze = getCommentsAnalyze(fileContent);
+    const comments = handleGetCommentsAnalyze({ fileContent, comments: acc.comments });
     const todosAnalyze = getTodosAnalyze(fileContent);
     const linesAnalyze = getEmptyLinesAnalyze(fileContent);
     const logs = handleGetLogsAnalyze({ fileContent, logs: acc.logs });
-
-    const comments = Object
-      .entries(acc.comments)
-      .reduce((fileCommentsAnalyze, [key, value]) => ({
-        ...fileCommentsAnalyze,
-        [key]: fileCommentsAnalyze[key as keyof ICommentsCodeAnalyze] + value,
-      }), commentsAnalyze);
 
     return {
       comments,
