@@ -1,5 +1,5 @@
-import { ICommentsCodeAnalyze } from '../../common/types';
-import { BLOCK_COMMENT_REGEX, INLINE_COMMENT_REGEX } from './constant.js';
+import { ICommentsCodeAnalyze } from '../../../common/types';
+import { BLOCK_COMMENT_REGEX, INLINE_COMMENT_REGEX } from '../constant.js';
 
 const isInlineCommentLine = (contentLine: string) => new RegExp(INLINE_COMMENT_REGEX).test(contentLine);
 

@@ -1,4 +1,4 @@
-import { INLINE_TODO_REGEX } from './constant.js';
+import { INLINE_TODO_REGEX } from '../constant.js';
 
 const isInlineTodoCommentLine = (inlineContent: string) => new RegExp(INLINE_TODO_REGEX).test(inlineContent);
 

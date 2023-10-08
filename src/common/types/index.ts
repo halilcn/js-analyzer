@@ -1,4 +1,5 @@
 export type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
+export type AllNamingConventionsType = { [key in NamingConventionEnum]?: number; };
 
 export enum AnswerEnums {
   PATH = 'path',
@@ -19,7 +20,7 @@ export interface IAnswers {
 
 export interface IFileAnalyzeByFileNames {
   types: { [key: string]: number; }
-  namingConventions: { [key in NamingConventionEnum]?: number; }
+  namingConventions: AllNamingConventionsType
 }
 export interface IFileAnalyze extends IFileAnalyzeByFileNames {
   totalFile: number
@@ -38,6 +39,7 @@ export interface ILogsCodeAnalyze {
 export interface ICodeAnalyze {
   comments: ICommentsCodeAnalyze
   logs: ILogsCodeAnalyze
+  variablesConventions: AllNamingConventionsType
   totalTodos: number
   totalEmptyLines: number
 }

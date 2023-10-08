@@ -1,10 +1,13 @@
 import fs from 'fs';
-import { getCommentsAnalyze } from './comments.js';
-import { ICodeAnalyze, ICommentsCodeAnalyze, ILogsCodeAnalyze } from '../../common/types/index.js';
-import { getTodosAnalyze } from './todos.js';
-import { getEmptyLinesAnalyze } from './general.js';
-import { getLogsAnalyze } from './logs.js';
-import { IHandleGetCommentsAnalyze, IHandleLogsAnalyze } from './types.js';
+import { getCommentsAnalyze } from './plugins/comments.js';
+import {
+  ICodeAnalyze, ICommentsCodeAnalyze, ILogsCodeAnalyze, NamingConventionEnum,
+} from '../../common/types/index.js';
+import { getTodosAnalyze } from './plugins/todos.js';
+import { getEmptyLinesAnalyze } from './plugins/general.js';
+import { getLogsAnalyze } from './plugins/logs.js';
+import { IHandleGetCommentsAnalyze, IHandleGetVariablesConventionsAnalyze, IHandleLogsAnalyze } from './types.js';
+import { getVariablesConventionsAnalyze } from './plugins/variables.js';
 
 const handleGetLogsAnalyze = (payload: IHandleLogsAnalyze): ILogsCodeAnalyze => {
   const { fileContent, logs } = payload;
@@ -38,6 +41,22 @@ const handleGetCommentsAnalyze = (payload: IHandleGetCommentsAnalyze) => {
     }), contentCommentsAnalyze);
 };
 
+const handleGetVariablesConventionsAnalyze = (payload: IHandleGetVariablesConventionsAnalyze) => {
+  const { variablesConventions, fileContent } = payload;
+
+  const variablesConventionsAnalyzes = getVariablesConventionsAnalyze(fileContent);
+
+  return Object
+    .entries(variablesConventionsAnalyzes)
+    .reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: (variablesConventions[key as NamingConventionEnum] ?? 0) + value,
+      }),
+      variablesConventions,
+    );
+};
+
 export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
   const initialCodeAnalyze: ICodeAnalyze = {
     comments: {
@@ -46,6 +65,7 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
       totalComments: 0,
     },
     logs: {},
+    variablesConventions: {},
     totalTodos: 0,
     totalEmptyLines: 0,
   };
@@ -57,10 +77,15 @@ export const handleCodeAnalyze = (files: string[]): ICodeAnalyze => {
     const todosAnalyze = getTodosAnalyze(fileContent);
     const linesAnalyze = getEmptyLinesAnalyze(fileContent);
     const logs = handleGetLogsAnalyze({ fileContent, logs: acc.logs });
+    const variablesConventions = handleGetVariablesConventionsAnalyze({
+      fileContent,
+      variablesConventions: acc.variablesConventions,
+    });
 
     return {
       comments,
       logs,
+      variablesConventions,
       totalTodos: acc.totalTodos + todosAnalyze,
       totalEmptyLines: acc.totalEmptyLines + linesAnalyze,
     };

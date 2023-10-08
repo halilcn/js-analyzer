@@ -1,5 +1,5 @@
-import { ILogsCodeAnalyze } from '../../common/types';
-import { LOG_REGEX } from './constant.js';
+import { ILogsCodeAnalyze } from '../../../common/types';
+import { LOG_REGEX } from '../constant.js';
 
 export const getLogsAnalyze = (content: string): ILogsCodeAnalyze => {
   const allLogsTypes: string[] = [];
