@@ -17,12 +17,12 @@ export const PROMPT_QUESTIONS: QuestionCollection = [
   {
     name: AnswerEnums.EXCEPT_FILES,
     type: 'input',
-    message: `${chalk.white('Are there any files or directory names you want to except?')}${chalk.gray('(You should write them like "custom-folder, custom-file.js, ...")')}`,
+    message: `${chalk.white('Are there files or directories you want to ignore?')}${chalk.gray('(You should write them like "custom-folder, custom-file.js, ...")')}`,
   },
   {
     name: AnswerEnums.EXCEPT_EXTENSIONS,
     type: 'input',
-    message: `${chalk.white('Are there any file extensions you want to except? ')}${chalk.gray('(You should write them like ".json, .txt, ...")')}`,
+    message: `${chalk.white('Are there any file extensions you want to ignore? ')}${chalk.gray('(You should write them like ".json, .txt, ...")')}`,
   },
   {
     name: AnswerEnums.REQUESTED_FILE,
