@@ -2,8 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { getCurrentDirectory } from '../../common/utils/index.js';
 import { IAnswers } from '../../common/types/index.js';
-import { isExceptedByName, isExpectedByType } from './utils.js';
+import { checkIsDirectory, isExceptedByName, isExpectedByType } from './utils.js';
 import { IValidFilesPayload } from './types.js';
+import { CustomMessageError, FileFeatureError, InvalidPathError } from '../../common/errors/index.js';
 
 const getValidAllFilesPath = (payload: IValidFilesPayload, files: string[] = []): string[] => {
   const { targetDirectory, answers } = payload;
@@ -29,11 +30,21 @@ const getValidAllFilesPath = (payload: IValidFilesPayload, files: string[] = [])
 };
 
 export const getAllFilesPath = (answers: IAnswers): string[] => {
-  // TODO: if file directory is invalid? error message
-  // TODO: if the directory given to us is not directory path
+  try {
+    const fullPath = path.join(getCurrentDirectory(), answers.path);
+    const isDirectory = checkIsDirectory(fullPath);
 
-  const targetDirectory = path.join(getCurrentDirectory(), answers.path);
-  const validAllFilesPath = getValidAllFilesPath({ targetDirectory, answers });
+    return isDirectory
+      ? getValidAllFilesPath({
+        targetDirectory: fullPath,
+        answers,
+      })
+      : [fullPath];
+  } catch (err: any) {
+    if (err instanceof InvalidPathError) {
+      throw new CustomMessageError('The path does not has any files or folders to analyze. Please write a valid path.');
+    }
 
-  return validAllFilesPath;
+    throw new FileFeatureError();
+  }
 };
