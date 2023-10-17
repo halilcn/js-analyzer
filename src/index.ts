@@ -12,7 +12,7 @@ import 'dotenv/config';
     const answers = await getAnswers();
     runner(answers);
   } catch (err) {
-    log(chalk.red('An error occurred!'));
+    log(chalk.red('The analyzer crashed due to a problem...'));
     process.exit(1);
   }
 })();
