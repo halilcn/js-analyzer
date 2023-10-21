@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import {
   ICreateLineCountTable, ICreateMultipleRowsCountTable, ICreateTableTitle,
 } from './types';
+import { textMapping } from '../../common/table-text-mapping/index.js';
 
 export const createCLIMultipleRowsCountTable = (tableInfo: ICreateMultipleRowsCountTable): Table => {
   const { head, rows, ...otherOptions } = tableInfo;

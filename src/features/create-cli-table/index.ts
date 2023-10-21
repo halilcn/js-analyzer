@@ -6,19 +6,30 @@ import {
   createCLITableTitle,
   normalizeRowsFromObject,
 } from './helpers.js';
+import { textMapping } from '../../common/table-text-mapping/index.js';
 
 const createFileAnalyze = (fileAnalyzes: IFileAnalyze): Table[] => {
   const { totalFile, ...restOfFileAnalyzes } = fileAnalyzes;
 
   const tableTitle = createCLITableTitle({ title: 'File Analyzes' });
-  const totalFileTable = createCLILineCountTable({ head: ['total file count', String(totalFile)] });
+  const totalFileTable = createCLILineCountTable({ head: ['Total File Count', String(totalFile)] });
 
   const restOfAnalyzesTables = Object
     .entries(restOfFileAnalyzes)
-    .map(([key, value]) => createCLIMultipleRowsCountTable({
-      head: [key, 'quantity'],
-      rows: normalizeRowsFromObject(value),
-    }));
+    .map(([key, value]) => {
+      const mappedRows = Object
+        .entries(value)
+        .reduce((acc, [rowKey, rowValue]) => ({
+          ...acc,
+          [textMapping(rowKey)]: rowValue,
+        }), {});
+      const normalizedRows = normalizeRowsFromObject(mappedRows);
+
+      return createCLIMultipleRowsCountTable({
+        head: [textMapping(key, `file.${key}`), 'Quantity'],
+        rows: normalizedRows,
+      });
+    });
 
   return [tableTitle, ...restOfAnalyzesTables, totalFileTable];
 };
@@ -27,15 +38,25 @@ const createCodeAnalyze = (codeAnalyze: ICodeAnalyze): Table[] => {
   const { totalTodos, totalEmptyLines, ...restOfCodeAnalyzes } = codeAnalyze;
 
   const tableTitle = createCLITableTitle({ title: 'Code Analyzes' });
-  const totalTodosTable = createCLILineCountTable({ head: ['total todos count', String(totalTodos)] });
-  const totalEmptyLinesTable = createCLILineCountTable({ head: ['total empty lines count', String(totalEmptyLines)] });
+  const totalTodosTable = createCLILineCountTable({ head: ['Total Todos Count', String(totalTodos)] });
+  const totalEmptyLinesTable = createCLILineCountTable({ head: ['Total Empty Lines Count', String(totalEmptyLines)] });
 
   const restOfAnalyzesTables = Object
     .entries(restOfCodeAnalyzes)
-    .map(([key, value]) => createCLIMultipleRowsCountTable({
-      head: [key, 'quantity'],
-      rows: normalizeRowsFromObject(value),
-    }));
+    .map(([key, value]) => {
+      const mappedRows = Object
+        .entries(value)
+        .reduce((acc, [rowKey, rowValue]) => ({
+          ...acc,
+          [textMapping(rowKey)]: rowValue,
+        }), {});
+      const normalizedRows = normalizeRowsFromObject(mappedRows);
+
+      return createCLIMultipleRowsCountTable({
+        head: [textMapping(key, `code.${key}`), 'Quantity'],
+        rows: normalizedRows,
+      });
+    });
 
   return [tableTitle, ...restOfAnalyzesTables, totalTodosTable, totalEmptyLinesTable];
 };

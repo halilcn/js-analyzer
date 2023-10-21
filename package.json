@@ -1,7 +1,7 @@
 {
   "name": "js-analyzer",
   "author": "Halil Can <iletisimhalilcan@gmail.com>",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "JS Analyzer",
   "homepage": "https://github.com/halilcn/js-analyzer",
   "bugs": "https://github.com/halilcn/js-analyzer/issues",
@@ -48,12 +48,14 @@
   "dependencies": {
     "@types/cli-table": "^0.3.2",
     "@types/inquirer": "^9.0.3",
+    "@types/lodash": "^4.14.200",
     "chalk": "^5.3.0",
     "cli-table": "^0.3.11",
     "commander": "^11.0.0",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "inquirer": "^9.2.10",
+    "lodash": "^4.17.21",
     "rimraf": "^5.0.1",
     "strip-ansi": "^7.1.0"
   }
